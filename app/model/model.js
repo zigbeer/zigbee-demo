@@ -6,7 +6,7 @@ var _ = require('busyman'),
 var weatherDevInfo = {
         type: 'EndDevice',
         ieeeAddr: '0x00124b0001ce1001',
-        nwkAddr: 3,
+        nwkAddr: 1,
         manufId: 0,
         epList: [ 1, 2 ],
         endpoints: {
@@ -24,7 +24,7 @@ var weatherDevInfo = {
 var sensorDevInfo = {
         type: 'EndDevice',
         ieeeAddr: '0x00124b0001ce1002',
-        nwkAddr: 1,
+        nwkAddr: 2,
         manufId: 0,
         epList: [ 1, 2, 3 ],
         endpoints: {
@@ -46,7 +46,7 @@ var sensorDevInfo = {
 var ctrlDevInfo = {
         type: 'EndDevice',
         ieeeAddr: '0x00124b0001ce1003',
-        nwkAddr: 2,
+        nwkAddr: 3,
         manufId: 0,
         epList: [ 1, 2, 3 ],
         endpoints: {
@@ -95,7 +95,7 @@ function createDev (devInfo) {
 
 module.exports = {
     functional: fakeFunctional,
-    ctrlDev: createDev(ctrlDevInfo),
+    weatherDev: createDev(weatherDevInfo),
     sensorDev: createDev(sensorDevInfo),
-    weatherDev: createDev(weatherDevInfo)
+    ctrlDev: createDev(ctrlDevInfo)
 };

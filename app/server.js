@@ -10,7 +10,7 @@ var model = require('./model/model'),
     ioServer = require('./helpers/ioServer');
 
 var server = http.createServer(),
-    shepherd = new ZShepherd('/dev/ttyUSB0');
+    shepherd = new ZShepherd('/dev/ttyACM0');
 
 server.listen(3030);
 ioServer.start(server);
@@ -72,7 +72,7 @@ var app = function () {
             ep = shepherd.find(ieeeAddr, epId);
 
         if (ieeeAddr === '0x00124b0001ce1003') {
-            ep.functional = model.functional;
+            // ep.functional = model.functional;
             toggleDev(ep, cid, val);
         } else if (cid === 'genOnOff') {
             var cmd = val ? 'on' : 'off';
@@ -387,17 +387,21 @@ function simpleApp () {
         sensorDev = model.sensorDev,
         weatherDev = model.weatherDev;
 
-    if (!shepherd.find('0x0000000011111111', 1)) {
-        shepherd._registerDev(sensorDev).then(function () {
-            return shepherd._registerDev(ctrlDev);
+    if (!shepherd.find('0x00124b0001ce1001', 1)) {
+        shepherd._registerDev(weatherDev).then(function () {
+            return shepherd._registerDev(sensorDev);
         }).then(function () {
-            return shepherd._registerDev(weatherDev);
+            return shepherd._registerDev(ctrlDev);
         }).done();
     } else {
-        var devs = [ sensorDev, ctrlDev, weatherDev ];
+        var devs = [ weatherDev, sensorDev, ctrlDev ];
         devs.forEach(function (dev) {
             dev = shepherd._findDevByAddr(dev.ieeeAddr);
-            dev.setNetInfo({ status: 'online', joinTime: Math.floor(Date.now()/1000) });
+            dev.update({ status: 'online', joinTime: Math.floor(Date.now()/1000) });
+            _.forEach(dev.epList, function (epId) {
+                var ep = shepherd.find(dev.ieeeAddr, epId);
+                ep.functional = model.functional;
+            });
         });
         shepherd._devbox.maintain(function (err){ });
     }

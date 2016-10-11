@@ -18,3 +18,5 @@ $ cd zigbee-demo
 
 * Open up http://0.0.0.0:3000/ with your browser
 * In the app, click **PERMIT JOIN** to run the demo, and you will see several devices joining the network one after another and doing something fun.  
+
+![Demo](https://github.com/zigbeer/documents/blob/master/media/demo.gif)

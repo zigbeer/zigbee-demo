@@ -1,5 +1,5 @@
 var _ = require('busyman'),
-    Ziee = require('../../node_modules/zigbee-shepherd/node_modules/ziee'),
+    Ziee = require('ziee'),
     Device = require('../../node_modules/zigbee-shepherd/lib/model/device'),
     Endpoint = require('../../node_modules/zigbee-shepherd/lib/model/endpoint');
 
